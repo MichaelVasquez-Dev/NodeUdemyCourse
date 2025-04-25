@@ -1,0 +1,11 @@
+*, *::after, *::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    background-color: rgb(28, 28, 28);
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+}
