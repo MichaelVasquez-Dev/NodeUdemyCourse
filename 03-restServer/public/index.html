@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google sign in</title>
+</head>
+<body>
+    <h1>Google sign In</h1>
+    <hr>
+    <script src="https://accounts.google.com/gsi/client" async></script>
+    <div id="g_id_onload"
+        data-client_id=945280096226-rp14lof15eja9p9hugch59vcl6gsgu6c.apps.googleusercontent.com
+        
+        data-callback="handleCredentialResponse"
+        data-auto_prompt="false">
+    </div>
+    <!-- 
+        data-login_uri="https://your.domain/your_login_endpoint" //esto iria en el espacio vacio para hacer el login
+    -->
+    <div class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="rectangular"
+        data-logo_alignment="left">
+    </div>
+    <script>
+        function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+
+
+            fetch('http://localhost:8080/api/auth/google', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id_token: response.credential })
+            })
+            .then( res => res.json())
+            .then( data => {
+                console.log(data);
+                // Aquí puedes manejar la respuesta del servidor, como redirigir al usuario o mostrar un mensaje
+            }).catch( error => {
+                console.error('Error:', error);
+            });
+
+
+            
+        }
+    </script>
+</body>
+</html>
